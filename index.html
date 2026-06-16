@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Career Recommendation System - Extended</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        label { font-weight: bold; margin-top: 10px; display: block; }
+        input[type=text], input[type=number], select, textarea { width: 300px; padding: 5px; margin-top:5px; }
+        .checkbox-group, .radio-group { margin-top: 5px; }
+        .recommendation { margin-top: 20px; padding: 10px; background: #e0ecef; border-radius: 4px; }
+    </style>
+</head>
+<body>
+<h2>Career Recommendation System</h2>
+
+<form method="POST" action="/">
+    <!-- Personal Information -->
+    <label>Age:</label>
+    <input type="number" name="age" value="{{ form_data.age if form_data else '' }}">
+
+    <label>Gender (Optional):</label>
+    <select name="gender">
+        <option value="" {% if not form_data or form_data.gender == '' %}selected{% endif %}>Select</option>
+        <option value="male" {% if form_data and form_data.gender == 'male' %}selected{% endif %}>Male</option>
+        <option value="female" {% if form_data and form_data.gender == 'female' %}selected{% endif %}>Female</option>
+        <option value="other" {% if form_data and form_data.gender == 'other' %}selected{% endif %}>Other</option>
+    </select>
+
+    <!-- Academic Background -->
+    <label>Current Education Level:</label>
+    <select name="education_level">
+        <option value="" {% if not form_data or form_data.education_level == '' %}selected{% endif %}>Select</option>
+        <option value="High School" {% if form_data and form_data.education_level == 'High School' %}selected{% endif %}>High School</option>
+        <option value="Undergraduate" {% if form_data and form_data.education_level == 'Undergraduate' %}selected{% endif %}>Undergraduate</option>
+        <option value="Graduate" {% if form_data and form_data.education_level == 'Graduate' %}selected{% endif %}>Graduate</option>
+        <option value="Postgraduate" {% if form_data and form_data.education_level == 'Postgraduate' %}selected{% endif %}>Postgraduate</option>
+    </select>
+
+    <label>Subjects / Stream (select one or more):</label>
+    <div class="checkbox-group">
+        <input type="checkbox" name="stream" value="Science" {% if form_data and 'Science' in form_data.getlist('stream') %}checked{% endif %}> Science
+        <input type="checkbox" name="stream" value="Computers" {% if form_data and 'Computers' in form_data.getlist('stream') %}checked{% endif %}> Computers
+        <input type="checkbox" name="stream" value="Commerce" {% if form_data and 'Commerce' in form_data.getlist('stream') %}checked{% endif %}> Commerce
+        <input type="checkbox" name="stream" value="Arts" {% if form_data and 'Arts' in form_data.getlist('stream') %}checked{% endif %}> Arts
+        <input type="checkbox" name="stream" value="Humanities" {% if form_data and 'Humanities' in form_data.getlist('stream') %}checked{% endif %}> Humanities
+    </div>
+
+
+    <!-- Skills -->
+    <label>Technical Skills (comma separated):</label>
+    <textarea name="technical_skills" placeholder="e.g.. programming, data analysis">{{ form_data.technical_skills if form_data else '' }}</textarea>
+
+    <label>Soft Skills (comma separated):</label>
+    <textarea name="soft_skills" placeholder="e.g.. communication, leadership">{{ form_data.soft_skills if form_data else '' }}</textarea>
+
+    <!-- Interests & Preferences -->
+    <label>Field(s) of Interest (select one or more):</label>
+    <div class="checkbox-group">
+        <input type="checkbox" name="field_of_interest" value="Technology" {% if form_data and 'Technology' in form_data.getlist('field_of_interest') %}checked{% endif %}> Technology
+        <input type="checkbox" name="field_of_interest" value="Arts" {% if form_data and 'Arts' in form_data.getlist('field_of_interest') %}checked{% endif %}> Arts
+        <input type="checkbox" name="field_of_interest" value="Business" {% if form_data and 'Business' in form_data.getlist('field_of_interest') %}checked{% endif %}> Business
+        <input type="checkbox" name="field_of_interest" value="Healthcare" {% if form_data and 'Healthcare' in form_data.getlist('field_of_interest') %}checked{% endif %}> Healthcare
+    </div>
+
+    <label>Work Style Preference:</label>
+    <div class="checkbox-group">
+        <input type="checkbox" name="work_style" value="Teamwork" {% if form_data and 'Teamwork' in form_data.getlist('work_style') %}checked{% endif %}> Teamwork
+        <input type="checkbox" name="work_style" value="Individual" {% if form_data and 'Individual' in form_data.getlist('work_style') %}checked{% endif %}> Individual
+        <input type="checkbox" name="work_style" value="Remote" {% if form_data and 'Remote' in form_data.getlist('work_style') %}checked{% endif %}> Remote
+        <input type="checkbox" name="work_style" value="Field work" {% if form_data and 'Field work' in form_data.getlist('work_style') %}checked{% endif %}> Field work
+    </div>
+
+    <label>Preferred Work Environment:</label>
+    <div class="checkbox-group">
+        <input type="checkbox" name="work_environment" value="Office" {% if form_data and 'Office' in form_data.getlist('work_environment') %}checked{% endif %}> Office
+        <input type="checkbox" name="work_environment" value="Outdoor" {% if form_data and 'Outdoor' in form_data.getlist('work_environment') %}checked{% endif %}> Outdoor
+        <input type="checkbox" name="work_environment" value="Flexible" {% if form_data and 'Flexible' in form_data.getlist('work_environment') %}checked{% endif %}> Flexible
+    </div>
+
+    <!-- Personality Traits -->
+    <label>Introvert / Extrovert Tendency:</label>
+    <div class="radio-group">
+        <input type="radio" name="introvert_extrovert" value="Introvert" {% if form_data and form_data.introvert_extrovert == 'Introvert' %}checked{% endif %}> Introvert
+        <input type="radio" name="introvert_extrovert" value="Extrovert" {% if form_data and form_data.introvert_extrovert == 'Extrovert' %}checked{% endif %}> Extrovert
+    </div>
+
+    <label>Creative / Analytical Orientation:</label>
+    <div class="radio-group">
+        <input type="radio" name="creative_analytical" value="Creative" {% if form_data and form_data.creative_analytical == 'Creative' %}checked{% endif %}> Creative
+        <input type="radio" name="creative_analytical" value="Analytical" {% if form_data and form_data.creative_analytical == 'Analytical' %}checked{% endif %}> Analytical
+    </div>
+
+    <label>Risk-taking Ability (1-5):</label>
+    <select name="risk_taking">
+      <option value="" {% if not form_data or form_data.risk_taking == '' %}selected{% endif %}>Select</option>
+      {% for i in range(1,6) %}
+      <option value="{{i}}" {% if form_data and form_data.risk_taking == i|string %}selected{% endif %}>{{i}}</option>
+      {% endfor %}
+    </select>
+
+    <!-- Goals & Aspirations -->
+    <label>Career Goals:</label>
+    <textarea name="career_goals" rows="3" placeholder="e.g..Job security, high salary, passion-driven">{{ form_data.career_goals if form_data else '' }}</textarea>
+
+    <br><br>
+    <input type="submit" value="Get Recommendations">
+</form>
+
+{% if recommendations %}
+    <div class="recommendation">
+        <h3>Your Recommended Career Categories:</h3>
+        <ul>
+            {% for category, careers in recommendations.items() %}
+                <li><strong>{{ category }}</strong>
+                    <ul>
+                        {% for career in careers %}
+                        <li>{{ career }}</li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+
+</body>
+</html>
+
